@@ -9,8 +9,8 @@
   tasks:
     - name: "clone app"
       git:
-        repo: {{ repo }}
-        dest: {{ workspace }}
+        repo: "{{ repo }}"
+        dest: "{{ workspace }}"
         clone: no
         update: yes
 
@@ -43,13 +43,13 @@
 
     - name: "Get build package"
       copy:
-        src: {{ workspace }}/builds/latest/{{ build_name }}
-        dest: {{ deploy_path }}
+        src: "{{ workspace }}/builds/latest/{{ build_name }}"
+        dest: "{{ deploy_path }}"
 
     - name: "unpackage"
       unarchive:
-        src:  {{ deploy_path }}/{{ build_name }}
-        dest: {{ app_dir }}
+        src:  "{{ deploy_path }}/{{ build_name }}"
+        dest: "{{ app_dir }}"
         remote_src: true
 
     - name: "install pm2"
