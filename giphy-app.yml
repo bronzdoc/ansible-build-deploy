@@ -1,7 +1,6 @@
 ---
 - name: giphy-build
   hosts: jenkins-server
-  remote_user: jenkins
   vars:
     build_name: lookup('env', 'BUILD_NAME')
     workspace: lookup('env', 'WORKSPACE')
