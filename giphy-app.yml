@@ -10,7 +10,7 @@
       git:
         repo: "{{ repo }}"
         dest: "{{ workspace }}"
-        clone: no
+        clone: yes
         update: yes
 
     - name: "create logs dir"
