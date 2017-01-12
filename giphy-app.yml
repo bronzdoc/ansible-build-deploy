@@ -4,7 +4,7 @@
   vars:
     build_name: lookup('env', 'BUILD_NAME')
     workspace: lookup('env', 'WORKSPACE')
-    repo: lookuo('env', 'REPO')
+    repo: lookup('env', 'REPO')
   tasks:
     - name: "clone app"
       git:
