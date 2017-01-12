@@ -1,0 +1,64 @@
+---
+- name: giphy-build
+  hosts: jenkins-server
+  remote_user: jenkins
+  vars:
+    build_name: lookup('env', 'BUILD_NAME')
+    workspace: lookup('env', 'WORKSPACE')
+    repo: lookuo('env', 'REPO')
+  tasks:
+    - name: "clone app"
+      git:
+        repo: {{ repo }}
+        dest: {{ workspace }}
+        clone: no
+        update: yes
+
+    - name: "create logs dir"
+      command: mkdir {{ workspace }}/giphy-express-web-server/logs
+
+    - name: "package app"
+      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} giphy-express-web-server
+
+    - name: "update latest build"
+      command: "{{ item }}"
+      with_items:
+        - mkdir -p builds/latest
+        - find {{ workspace }}/builds/latest -type f -execdir mv {} {{ workspace }}/builds/ \;
+        - mv {{ build_name }} {{ workspace }}/builds/latest
+
+- name: giphy-deploy
+  hosts: doc-pc
+  remote_user: jenkins
+  vars:
+    deploy_path: ~/
+    app_dir: app/
+    app_entrypoint: app.js
+  tasks:
+    - name: "create deploy path"
+      command: "{{ item }}"
+      with_items:
+        - test -d {{ deploy_path }}/{{ app_dir }} && rm -rf {{ deploy_path }}/{{ app_dir }}
+        - mkdir {{ deploy_path }}/{{ app_dir }}
+
+    - name: "Get build package"
+      copy:
+        src: {{ workspace }}/builds/latest/{{ build_name }}
+        dest: {{ deploy_path }}
+
+    - name: "unpackage"
+      unarchive:
+        src:  {{ deploy_path }}/{{ build_name }}
+        dest: {{ app_dir }}
+        remote_src: true
+
+    - name: "install pm2"
+      npm:
+        name: pm2
+        global: yes
+
+    - name: "run node app"
+      command: pm2 stop all && pm2 start app_entrypoint
+...
+
+
