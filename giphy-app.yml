@@ -2,9 +2,9 @@
 - name: giphy-build
   hosts: jenkins-server
   vars:
-    build_name: lookup('env', 'BUILD_NAME')
-    workspace: lookup('env', 'WORKSPACE')
-    repo: lookup('env', 'REPO')
+    build_name: "{{ lookup('env', 'BUILD_NAME') }}"
+    workspace: "{{ lookup('env', 'WORKSPACE') }}"
+    repo: "{{ lookup('env', 'REPO') }}"
   tasks:
     - name: "clone app"
       git:
