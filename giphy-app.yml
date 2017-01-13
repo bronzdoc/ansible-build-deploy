@@ -4,17 +4,7 @@
   vars:
     build_name: "{{ lookup('env', 'BUILD_NAME') }}"
     workspace: "{{ lookup('env', 'WORKSPACE') }}"
-    repo: "{{ lookup('env', 'REPO') }}"
   tasks:
-    - name: "clone app"
-      git:
-        repo: "{{ repo }}"
-        dest: "{{ workspace }}"
-        clone: yes
-        update: yes
-        accept_hostkey: yes
-        key_file: "{{ key_file }}"
-
     - name: "create logs dir"
       command: mkdir {{ workspace }}/giphy-express-web-server/logs
 
