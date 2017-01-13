@@ -6,19 +6,19 @@
     workspace: "{{ lookup('env', 'WORKSPACE') }}"
   tasks:
     - name: "create logs dir"
-      command: mkdir {{ workspace }}/giphy-express-web-server/logs
+      command: mkdir {{ workspace }}/logs
 
     - name: "npm install"
       npm:
-        path: "{{ workspace }}/giphy-express-web-server"
+        path: "{{ workspace }}"
 
     - name: "package app"
-      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} giphy-express-web-server
+      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} {{ workspace }}
 
     - name: "update latest build"
       command: "{{ item }}"
       with_items:
-        - mkdir -p builds/latest
+        - mkdir -p {{ workspace }}/builds/latest
         - find {{ workspace }}/builds/latest -type f -execdir mv {} {{ workspace }}/builds/ \;
         - mv {{ build_name }} {{ workspace }}/builds/latest
 
