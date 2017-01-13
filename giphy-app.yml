@@ -45,6 +45,8 @@
       unarchive:
         src:  "{{ deploy_path }}/{{ build_name }}"
         dest: "{{ deploy_path }}/{{ app_dir }}"
+        remote_src: yes
+
 
     - name: "install pm2"
       npm:
