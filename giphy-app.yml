@@ -12,6 +12,8 @@
         dest: "{{ workspace }}"
         clone: yes
         update: yes
+        accept_hostkey: yes
+        key_file: "{{ key_file }}"
 
     - name: "create logs dir"
       command: mkdir {{ workspace }}/giphy-express-web-server/logs
