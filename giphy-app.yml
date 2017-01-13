@@ -23,7 +23,7 @@
         - mv {{ build_name }} {{ workspace }}/builds/latest
 
 - name: giphy-deploy
-  hosts: doc-pc
+  hosts: 10.10.10.190
   remote_user: jenkins
   vars:
     deploy_path: ~/
