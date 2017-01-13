@@ -1,12 +1,16 @@
 ---
 - name: giphy-build
-  hosts: jenkins-server
+  hosts: 127.0.0.1
   vars:
     build_name: "{{ lookup('env', 'BUILD_NAME') }}"
     workspace: "{{ lookup('env', 'WORKSPACE') }}"
   tasks:
     - name: "create logs dir"
       command: mkdir {{ workspace }}/giphy-express-web-server/logs
+
+    - name: "npm install"
+      npm:
+        path: "{{ workspace }}/giphy-express-web-server"
 
     - name: "package app"
       command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} giphy-express-web-server
