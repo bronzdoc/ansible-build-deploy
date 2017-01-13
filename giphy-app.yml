@@ -26,8 +26,8 @@
   hosts: 10.10.10.190
   remote_user: jenkins
   vars:
-    deploy_path: ~/
-    app_dir: app/
+    deploy_path: "{{ lookup('env', 'HOME') }}"
+    app_dir: app
     app_entrypoint: app.js
   tasks:
     - name: "create deploy path"
@@ -44,8 +44,7 @@
     - name: "unpackage"
       unarchive:
         src:  "{{ deploy_path }}/{{ build_name }}"
-        dest: "{{ app_dir }}"
-        remote_src: true
+        dest: "{{ deploy_path }}/{{ app_dir }}"
 
     - name: "install pm2"
       npm:
