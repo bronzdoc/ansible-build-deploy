@@ -31,7 +31,7 @@
     app_entrypoint: app.js
   tasks:
     - name: "create deploy path"
-      command: "{{ item }}"
+      shell: "{{ item }}"
       with_items:
         - test -d {{ deploy_path }}/{{ app_dir }} && rm -rf {{ deploy_path }}/{{ app_dir }}
         - mkdir {{ deploy_path }}/{{ app_dir }}
