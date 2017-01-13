@@ -26,7 +26,7 @@
   hosts: 10.10.10.190
   remote_user: jenkins
   vars:
-    deploy_path: "{{ lookup('env', 'HOME') }}"
+    deploy_path: "/home/jenkins"
     app_dir: app
     app_entrypoint: app.js
   tasks:
@@ -49,7 +49,8 @@
     - name: "install pm2"
       npm:
         name: pm2
-        global: yes
+        path: "{{ deploy_path }}/.node"
+
 
     - name: "run node app"
       command: pm2 stop all && pm2 start app_entrypoint
