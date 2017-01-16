@@ -57,4 +57,4 @@
       shell: "{{ item }}"
       with_items:
         - pm2 stop all
-        - cd "{{ deploy_path }}/{{ app_dir }} && pm2 start {{ app_entrypoint }}"
+        - pm2 start {{ deploy_path }}/{{ app_dir}}/{{ app_entrypoint }}
