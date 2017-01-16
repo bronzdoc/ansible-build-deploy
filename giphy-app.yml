@@ -51,10 +51,10 @@
     - name: "install pm2"
       npm:
         name: pm2
-        path: "{{ deploy_path }}/.node"
+        global: yes
 
     - name: "run node app"
       shell: "{{ item }}"
       with_items:
-        - cd "{{ deploy_path }}"
+        - cd "{{ deploy_path }}/{{ app_dir }}"
         - pm2 stop all && pm2 start {{ app_entrypoint }}
