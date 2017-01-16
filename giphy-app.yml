@@ -53,9 +53,8 @@
         name: pm2
         path: "{{ deploy_path }}/.node"
 
-
     - name: "run node app"
-      command: pm2 stop all && pm2 start app_entrypoint
-...
-
-
+      shell: "{{ item }}"
+      with_items:
+        - cd "{{ deploy_path }}"
+        - pm2 stop all && pm2 start {{ app_entrypoint }}
