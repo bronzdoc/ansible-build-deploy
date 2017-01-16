@@ -56,6 +56,5 @@
     - name: "run node app"
       shell: "{{ item }}"
       with_items:
-        - cd "{{ deploy_path }}/{{ app_dir }}"
         - pm2 stop all
-        - pm2 start {{ app_entrypoint }}
+        - cd "{{ deploy_path }}/{{ app_dir }} && pm2 start {{ app_entrypoint }}"
