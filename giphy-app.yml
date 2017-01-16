@@ -13,7 +13,7 @@
         path: "{{ workspace }}"
 
     - name: "package app"
-      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} {{ workspace }}
+      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} -C {{ workspace }} .
 
     - name: "update latest build"
       command: "{{ item }}"
