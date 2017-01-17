@@ -13,7 +13,7 @@
         path: "{{ workspace }}"
 
     - name: "package app"
-      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} {{ workspace }}
+      command: tar --exclude=".git" --exclude=".gitignore" -zcvf {{ build_name }} -C {{ workspace }} .
 
     - name: "update latest build"
       command: "{{ item }}"
@@ -51,11 +51,10 @@
     - name: "install pm2"
       npm:
         name: pm2
-        path: "{{ deploy_path }}/.node"
-
+        global: yes
 
     - name: "run node app"
-      command: pm2 stop all && pm2 start app_entrypoint
-...
-
-
+      shell: "{{ item }}"
+      with_items:
+        - pm2 stop all
+        - pm2 start {{ deploy_path }}/{{ app_dir}}/{{ app_entrypoint }}
